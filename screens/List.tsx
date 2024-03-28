@@ -1,12 +1,12 @@
-import { useNavigation } from "@react-navigation/native";
-import { Button } from "react-native";
+import { ScrollView, Text } from "react-native";
+
+import { useListData } from "./useListData";
 
 export default function List() {
-  const nav = useNavigation();
+  const { data } = useListData();
   return (
-    <Button
-      title="Detail ->"
-      onPress={() => nav.navigate("Detail", { id: "test" })}
-    />
+    <ScrollView style={{ flex: 1 }}>
+      {data?.map((pokemon) => <Text key={pokemon.name}>{pokemon.name}</Text>)}
+    </ScrollView>
   );
 }
