@@ -1,19 +1,26 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-const limit = 20;
+const limit = 100;
 
 async function fetchPokemonList({ pageParam = 0 }) {
+  console.log("FETCHING PAGE: ", pageParam);
   const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${pageParam * limit}`,
+    `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${pageParam * limit}`,
   );
 
   if (!response.ok) {
     throw new Error("Network Error");
   }
 
-  const data = await response.json();
+  const data: {
+    next: string | null;
+    results: Array<{ name: string }>;
+  } = await response.json();
 
-  return { data, nextPageNumber: pageParam + 1 };
+  return {
+    data,
+    nextPageNumber: data.next ? pageParam + 1 : null,
+  };
 }
 
 export function useListData() {
@@ -31,9 +38,7 @@ export function useListData() {
     getNextPageParam: ({ nextPageNumber }) => nextPageNumber,
   });
 
-  const flatData: Array<{ name: string }> | undefined = data?.pages.flatMap(
-    (page) => page.data.results,
-  );
+  const flatData = data?.pages.flatMap((page) => page.data.results);
 
   return {
     data: flatData,

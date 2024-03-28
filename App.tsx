@@ -18,9 +18,19 @@ export default function App() {
         <StatusBar style="auto" />
 
         <Stack.Navigator initialRouteName="List">
-          <Stack.Screen name="List" component={List} />
+          <Stack.Screen
+            name="List"
+            component={List}
+            options={{ headerLargeTitle: true, title: "Pokedex" }}
+          />
 
-          <Stack.Screen name="Detail" component={Detail} />
+          <Stack.Screen
+            name="Detail"
+            component={Detail}
+            options={({ route }) => ({
+              title: route.params.name.toUpperCase(),
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </QueryClientProvider>

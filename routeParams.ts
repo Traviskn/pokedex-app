@@ -1,6 +1,6 @@
 export type RouteParams = {
   List: undefined;
-  Detail: { id: string };
+  Detail: { id: number; name: string };
 };
 
 declare global {
