@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import Icon from "@expo/vector-icons/MaterialIcons";
 
 import { useListData } from "./useListData";
-import { useNavigation } from "@react-navigation/native";
+import { DexStackParams } from "../routeParams";
 
 const styles = StyleSheet.create({
   listContainer: { backgroundColor: "white" },
@@ -26,8 +27,9 @@ const styles = StyleSheet.create({
   rowLeft: { alignItems: "center", flexDirection: "row" },
 });
 
-export default function List() {
-  const nav = useNavigation();
+export default function List({
+  navigation,
+}: NativeStackScreenProps<DexStackParams, "List">) {
   const { data, isFetchingNextPage, fetchNextPage, status, hasNextPage } =
     useListData();
   return (
@@ -44,7 +46,7 @@ export default function List() {
         <TouchableOpacity
           key={item.name}
           onPress={() =>
-            nav.navigate("Detail", { id: index + 1, name: item.name })
+            navigation.navigate("Detail", { id: index + 1, name: item.name })
           }
           style={styles.row}
         >

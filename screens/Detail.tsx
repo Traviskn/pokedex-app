@@ -1,10 +1,10 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { StackParams } from "../routeParams";
+import { DexStackParams } from "../routeParams";
 import { Image, View } from "react-native";
 
 export default function Detail({
   route,
-}: NativeStackScreenProps<StackParams, "Detail">) {
+}: NativeStackScreenProps<DexStackParams, "Detail">) {
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <Image

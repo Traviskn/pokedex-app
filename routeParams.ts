@@ -1,13 +1,17 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 
-export type StackParams = {
+export type DexStackParams = {
   List: undefined;
   Detail: { id: number; name: string };
 };
+export type MapStackParams = {
+  Map: undefined;
+  Camera: { image: any };
+};
 export type TabParams = {
-  Dex: NavigatorScreenParams<StackParams>;
+  Dex: NavigatorScreenParams<DexStackParams>;
   Cards: undefined;
-  Go: undefined;
+  Go: MapStackParams;
 };
 declare global {
   namespace ReactNavigation {

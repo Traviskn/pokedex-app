@@ -3,6 +3,8 @@ import { Image } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import { View } from "react-native";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { MapStackParams } from "../routeParams";
 import { getRandomPokemon } from "./data/randomPokemon";
 
 const latitudeDelta = 0.01;
@@ -15,7 +17,9 @@ const initialRegion = {
   longitudeDelta,
 };
 
-export default function Go() {
+export default function Map({
+  navigation,
+}: NativeStackScreenProps<MapStackParams>) {
   const [region, setRegion] = useState<Region>(initialRegion);
   const [pokemon, setPokemon] = useState<ReturnType<typeof getRandomPokemon>>(
     [],
@@ -66,7 +70,7 @@ export default function Go() {
             coordinate={p}
             // image={p.image} <Image /> child component is larger and we can style it how we want
             onPress={() => {
-              console.log("PRESS ", p);
+              navigation.navigate("Camera", { image: p.image });
             }}
           >
             <Image source={p.image} />

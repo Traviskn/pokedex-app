@@ -6,33 +6,45 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { TabParams, StackParams } from "./routeParams";
+import { TabParams, DexStackParams, MapStackParams } from "./routeParams";
 import List from "./screens/List";
 import Detail from "./screens/Detail";
 import Cards from "./screens/Cards";
-import Go from "./screens/Go";
+import Map from "./screens/Map";
+import Camera from "./screens/Camera";
 
 const queryClient = new QueryClient();
 
-const Stack = createNativeStackNavigator<StackParams>();
+const StackStackNav = createNativeStackNavigator<DexStackParams>();
 
 function DexStack() {
   return (
-    <Stack.Navigator initialRouteName="List">
-      <Stack.Screen
+    <StackStackNav.Navigator initialRouteName="List">
+      <StackStackNav.Screen
         name="List"
         component={List}
         options={{ headerLargeTitle: true, title: "Pokedex" }}
       />
 
-      <Stack.Screen
+      <StackStackNav.Screen
         name="Detail"
         component={Detail}
         options={({ route }) => ({
           title: route.params.name.toUpperCase(),
         })}
       />
-    </Stack.Navigator>
+    </StackStackNav.Navigator>
+  );
+}
+
+const MapStackNav = createNativeStackNavigator<MapStackParams>();
+
+function MapStack() {
+  return (
+    <MapStackNav.Navigator initialRouteName="Map">
+      <MapStackNav.Screen name="Map" component={Map} />
+      <MapStackNav.Screen name="Camera" component={Camera} />
+    </MapStackNav.Navigator>
   );
 }
 
@@ -62,7 +74,7 @@ export default function App() {
         >
           <Tab.Screen name="Dex" component={DexStack} />
           <Tab.Screen name="Cards" component={Cards} />
-          <Tab.Screen name="Go" component={Go} />
+          <Tab.Screen name="Go" component={MapStack} />
         </Tab.Navigator>
       </NavigationContainer>
     </QueryClientProvider>
