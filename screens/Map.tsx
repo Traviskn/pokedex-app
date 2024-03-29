@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Image } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
-import * as Location from "expo-location";
+import {
+  Accuracy,
+  useForegroundPermissions,
+  watchPositionAsync,
+} from "expo-location";
 import { View } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParams } from "../routeParams";
@@ -25,20 +29,18 @@ export default function Map({
     [],
   );
 
-  console.log("POKEMON? ", pokemon);
-  const [status, requestPermission] = Location.useForegroundPermissions();
+  const [status, requestPermission] = useForegroundPermissions();
 
   useEffect(() => {
     if (status?.status === "undetermined") {
       requestPermission();
     } else if (status?.status === "granted") {
-      const locationSubPromise = Location.watchPositionAsync(
+      const locationSubPromise = watchPositionAsync(
         {
-          accuracy: Location.Accuracy.High,
+          accuracy: Accuracy.High,
           timeInterval: 1000,
         },
         (location) => {
-          console.log("GOT LOCATION? ", location);
           const newRegion = {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
