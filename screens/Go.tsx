@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Image } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import { View } from "react-native";
@@ -63,11 +64,13 @@ export default function Go() {
           <Marker
             key={`${p.longitude}-${p.latitude}`}
             coordinate={p}
-            image={p.image}
+            // image={p.image} <Image /> child component is larger and we can style it how we want
             onPress={() => {
               console.log("PRESS ", p);
             }}
-          />
+          >
+            <Image source={p.image} />
+          </Marker>
         ))}
       </MapView>
     </View>
